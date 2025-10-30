@@ -1,0 +1,22 @@
+<resources>
+        <!-- Colores personalizados de la app -->
+        <color name="azul_serenidad">#4A90E2</color>
+        <color name="azul_cielo_suave">#5DADE2</color>
+        <color name="azul_pastel_claro">#AED6F1</color>
+        <color name="azul_grisaceo">#2E86C1</color>
+        <color name="azul_super_claro">#EAF2F8</color>
+
+        <!-- Colores básicos -->
+        <color name="black">#000000</color>
+        <color name="white">#FFFFFF</color>
+
+        <!-- Colores por defecto del tema (si los necesitas) -->
+        <color name="purple_200">#BB86FC</color>
+        <color name="purple_500">#6200EE</color>
+        <color name="purple_700">#3700B3</color>
+        <color name="teal_200">#03DAC5</color>
+        <color name="teal_700">#018786</color>
+                <color name="azul_claro_fondo">#F0F8FF</color>
+                <color name="azul_btn">#4A90E2</color>
+
+</resources>
