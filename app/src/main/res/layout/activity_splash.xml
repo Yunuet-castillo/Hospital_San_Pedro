@@ -1,27 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/azul_super_claro"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:padding="24dp">
 
-    <!-- Logo: usa un drawable llamado ic_logo -->
+    <!-- Fondo decorativo con elementos de ola -->
     <ImageView
-        android:id="@+id/logo"
-        android:layout_centerInParent="true"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/logo" />
+        android:id="@+id/wave_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:src="@drawable/wave_bottom"
+        app:tint="@android:color/white"
+        android:alpha="0.1"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
+    <!-- Logo principal con contenedor circular -->
+    <LinearLayout
+        android:id="@+id/logo_container"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@drawable/circle_gradient_background"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/hospital_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:layout_marginTop="64dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/logo"
+            android:scaleType="centerInside"
+            android:padding="20dp"/>
+    </LinearLayout>
+
+    <!-- Nombre del hospital -->
     <TextView
         android:id="@+id/hospital_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Hospital San Pedro"
+        android:textColor="@android:color/white"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.02"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@id/logo_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"/>
+
+    <!-- Subtítulo o lema -->
+    <TextView
+        android:id="@+id/hospital_motto"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cuidando tu salud con excelencia"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:alpha="0.9"
+        android:gravity="center"
+        android:lineSpacingExtra="4dp"
+        app:layout_constraintTop_toBottomOf="@id/hospital_name"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginHorizontal="32dp"/>
+
+    <!-- Iconos decorativos -->
+    <ImageView
+        android:id="@+id/medical_icon_left"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_medical_cross"
+        app:tint="@android:color/white"
+        android:alpha="0.3"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="48dp"
+        android:layout_marginStart="32dp"/>
+
+    <ImageView
+        android:id="@+id/medical_icon_right"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:src="@drawable/ic_medical_heart"
+        app:tint="@android:color/white"
+        android:alpha="0.3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="32dp"/>
+
+    <!-- Indicador de carga -->
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/loading_indicator"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:indeterminate="true"
+        app:indicatorColor="@android:color/white"
+        app:trackColor="@android:color/white"
+        app:trackThickness="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="48dp"/>
+
+    <!-- Información de versión -->
+    <TextView
+        android:id="@+id/version_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/logo"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:text="Hospital San Pedro"
-        android:textSize="22sp"
-        android:textStyle="bold"
-        android:textColor="@color/azul_grisaceo" />
+        android:text="Versión 1.0.0"
+        android:textColor="@android:color/white"
+        android:textSize="12sp"
+        android:alpha="0.7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

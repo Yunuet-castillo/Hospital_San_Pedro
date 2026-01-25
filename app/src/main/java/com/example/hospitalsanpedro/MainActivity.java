@@ -1,12 +1,23 @@
 package com.example.hospitalsanpedro;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,84 +30,115 @@ import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity implements PatientAdapter.OnRegisterClickListener {
 
-    // Variables de la Actividad
     RecyclerView rv;
     ApiService api;
     SharedPrefManager sp;
     PatientAdapter adapter;
+    FloatingActionButton btnMenuOpciones;
+    TextView tvContador;
 
     @Override
-    protected void onCreate(Bundle s){
+    protected void onCreate(Bundle s) {
         super.onCreate(s);
         setContentView(R.layout.activity_main);
 
-        // Inicialización de Vistas y Componentes
         rv = findViewById(R.id.rvPacientes);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        api = ApiClient.getApiService();
+        api = ApiClient.getApiService(this);
         sp = new SharedPrefManager(this);
 
         adapter = new PatientAdapter(this);
         rv.setAdapter(adapter);
 
+        btnMenuOpciones = findViewById(R.id.btnMenuOpciones);
+        tvContador = findViewById(R.id.tvContador);
+
+        btnMenuOpciones.setOnClickListener(this::mostrarMenuOpciones);
+
         loadCitas();
     }
 
-    private void loadCitas(){
+    private void loadCitas() {
         String token = sp.getToken();
-
-        // 1. Verificación del Token (Seguridad)
-        if(token == null){
+        if (token == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
             return;
         }
 
-        // 2. Obtener la fecha de hoy en formato 'yyyy-MM-dd'
-        // Este es el formato estándar para enviar fechas a una API/Base de datos
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-        String todayDate = dateFormat.format(new Date());
+        String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        // 3. Llamada a la API con el token y la fecha de hoy
-        api.getCitas("Token " + token, todayDate).enqueue(new Callback<List<Cita>>() {
+        // 🔑 Usa "Bearer " en lugar de "Token "
+        api.getCitas("Bearer " + token, todayDate).enqueue(new Callback<List<Cita>>() {
             @Override
             public void onResponse(Call<List<Cita>> call, Response<List<Cita>> response) {
-                if(response.isSuccessful() && response.body()!=null){
-                    // La respuesta contiene SOLO las citas filtradas por el servidor
+                if (response.isSuccessful() && response.body() != null) {
                     adapter.setItems(response.body());
+                    tvContador.setText(response.body().size() + " pacientes para hoy");
                 } else {
-                    // Muestra el código de error si la respuesta no fue exitosa
-                    Toast.makeText(MainActivity.this,
-                            "Error cargando citas: " + response.code(),
-                            Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Error cargando citas: " + response.code(), Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Cita>> call, Throwable t) {
-                // Error de conexión o fallo de red
-                Toast.makeText(MainActivity.this,
-                        "Error de conexión: " + t.getMessage(),
-                        Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    // Implementación del listener (callback del adapter)
     @Override
     public void onRegisterClick(Cita cita) {
         Intent i = new Intent(this, AddVitalsActivity.class);
         i.putExtra("cita_id", cita.getId());
-        // Se asume que estos métodos existen en tu clase Cita y Paciente
-        i.putExtra("nombre_paciente", cita.getPaciente().getNombre() + " " + cita.getPaciente().getApellido());
+        i.putExtra("nombre_paciente",
+                cita.getPaciente().getNombre() + " " +
+                        cita.getPaciente().getApellidoPaterno() + " " +
+                        cita.getPaciente().getApellidoMaterno()
+        );
         startActivity(i);
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
-        // Recarga las citas cada vez que se regresa a esta actividad (por ejemplo, al volver de AddVitalsActivity)
         loadCitas();
     }
+
+    private void mostrarMenuOpciones(View view) {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.menu_opciones_flotante, null);
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        popupWindow.setElevation(16f);
+        popupWindow.showAsDropDown(view, -200, 0);
+
+        // Cambiar IP -> Abrir ServerConfigActivity
+        popupView.findViewById(R.id.opcionCambiarIP).setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ServerConfigActivity.class);
+            startActivity(intent);
+            popupWindow.dismiss();
+        });
+
+        // Cerrar sesión
+        popupView.findViewById(R.id.opcionCerrarSesion).setOnClickListener(v -> {
+            cerrarSesion();
+            popupWindow.dismiss();
+        });
+    }
+
+
+    private void cerrarSesion() {
+        new MaterialAlertDialogBuilder(this)
+                .setTitle("Cerrar sesión")
+                .setMessage("¿Estás seguro de que quieres cerrar sesión?")
+                .setPositiveButton("Sí", (dialog, which) -> {
+                    sp.clear();
+                    startActivity(new Intent(this, LoginActivity.class));
+                    finish();
+                })
+                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
 }

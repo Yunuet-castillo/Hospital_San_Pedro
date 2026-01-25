@@ -16,7 +16,12 @@
         <color name="purple_700">#3700B3</color>
         <color name="teal_200">#03DAC5</color>
         <color name="teal_700">#018786</color>
-                <color name="azul_claro_fondo">#F0F8FF</color>
-                <color name="azul_btn">#4A90E2</color>
+
+        <!-- Colores adicionales -->
+        <color name="azul_claro_fondo">#F0F8FF</color>
+        <color name="azul_btn">#4A90E2</color>
+        <color name="azul_oscuro">#0D47A1</color>
+        <color name="rojo_suave">#FF5252</color>
+        <color name="gris_claro">#E0E0E0</color>
 
 </resources>

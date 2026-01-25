@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <!-- Permiso de Internet -->
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -10,26 +11,40 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HospitalSanPedro"
-        android:usesCleartextTraffic="true">
-        <activity
-            android:name=".SignosVitales"
-            android:exported="false" />
-        <!-- Splash screen (pantalla de inicio) -->
+        android:usesCleartextTraffic="true"
+        android:theme="@style/Theme.HospitalSanPedro">
+
+        <!-- Splash / pantalla de inicio -->
         <activity
             android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity> <!-- Registro de enfermeras -->
-        <activity android:name=".RegisterActivity" /> <!-- Inicio de sesión -->
-        <activity android:name=".LoginActivity" /> <!-- Pantalla principal (dashboard de enfermera) -->
-        <activity android:name=".MainActivity" /> <!-- Pantalla de pacientes -->
-        <!-- Pantalla de agregar signos vitales -->
+        </activity>
+
+        <!-- Configuración del servidor (AGREGAR ESTA LÍNEA) -->
+        <activity android:name=".ServerConfigActivity" />
+
+        <!-- Registro de enfermeras -->
+        <activity android:name=".RegisterActivity" />
+
+        <!-- Inicio de sesión -->
+        <activity android:name=".LoginActivity" />
+
+        <!-- Dashboard o pantalla principal -->
+        <activity android:name=".MainActivity" />
+
+        <!-- Agregar signos vitales -->
         <activity android:name=".AddVitalsActivity" />
+
+        <!-- Signos vitales -->
+        <activity
+            android:name=".SignosVitales"
+            android:exported="false"
+            tools:ignore="Instantiatable" />
+
     </application>
 
 </manifest>

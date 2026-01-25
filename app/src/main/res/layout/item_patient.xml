@@ -4,86 +4,210 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginHorizontal="8dp"
-    android:layout_marginVertical="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:cardBackgroundColor="@color/azul_pastel_claro">
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="8dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="3dp"
+    app:cardBackgroundColor="@color/white"
+    android:elevation="2dp">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:padding="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Cabecera con ID y estado -->
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="8dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
 
+            <!-- Badge de ID -->
             <TextView
                 android:id="@+id/tvPacienteId"
-                android:textSize="12sp"
-                android:textColor="@color/azul_grisaceo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="ID: " /> <TextView
-            android:id="@+id/tvNombre"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:textColor="@color/azul_grisaceo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:text="Nombre Apellido" /> <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/azul_serenidad"
-            android:layout_marginVertical="4dp"/>
+                android:text="ID: #"
+                android:textSize="11sp"
+                android:textColor="@color/azul_serenidad"
+                android:background="@drawable/badge_background"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="4dp"
+                android:textStyle="bold"/>
 
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1"/>
+
+            <!-- Badge de estado -->
+            <TextView
+                android:id="@+id/tvEstado"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="10sp"
+                android:textColor="@color/white"
+                android:background="@drawable/badge_estado_pendiente"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="4dp"
+                android:textStyle="bold"
+                android:letterSpacing="0.05"/>
+        </LinearLayout>
+
+        <!-- Nombre del paciente -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="12dp">
+
+            <!-- Avatar -->
             <LinearLayout
-                android:orientation="horizontal"
+                android:id="@+id/avatarContainer"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="@drawable/circle_paciente_background"
+                android:gravity="center"
+                android:layout_marginEnd="12dp">
+
+                <TextView
+                    android:id="@+id/avatarText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="👤"
+                    android:textSize="18sp"/>
+            </LinearLayout>
+
+            <!-- Nombre completo -->
+            <TextView
+                android:id="@+id/tvNombre"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text=""
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:textColor="@color/azul_grisaceo"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+        <!-- Información de cita -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="@drawable/info_background"
+            android:padding="12dp"
+            android:layout_marginBottom="16dp">
+
+            <!-- Fecha -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="8dp">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_calendar"
+                    android:tint="@color/azul_serenidad"
+                    android:layout_marginEnd="8dp"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
+                    android:text="Fecha:"
+                    android:textSize="13sp"
                     android:textColor="@color/azul_grisaceo"
-                    android:text="Fecha: "/>
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvFecha"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="13sp"
                     android:textColor="@color/azul_grisaceo"
+                    android:layout_marginStart="4dp"/>
+            </LinearLayout>
+
+            <!-- Hora + consultorio -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_clock"
+                    android:tint="@color/azul_serenidad"
+                    android:layout_marginEnd="8dp"/>
+
+                <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="YYYY-MM-DD"/> <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:textStyle="bold"
-                android:textColor="@color/azul_grisaceo"
-                android:text="Hora: "/>
+                    android:text="Hora:"
+                    android:textSize="13sp"
+                    android:textColor="@color/azul_grisaceo"
+                    android:textStyle="bold"/>
 
                 <TextView
                     android:id="@+id/tvHora"
-                    android:textColor="@color/azul_grisaceo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HH:MM:SS"/> </LinearLayout>
+                    android:text=""
+                    android:textSize="13sp"
+                    android:textColor="@color/azul_grisaceo"
+                    android:layout_marginStart="4dp"/>
 
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+
+                <!-- Consultorio opcional -->
+                <TextView
+                    android:id="@+id/tvConsultorio"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:visibility="gone"
+                    android:textSize="12sp"
+                    android:textColor="@color/azul_serenidad"
+                    android:background="@drawable/badge_consultorio"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"/>
+            </LinearLayout>
         </LinearLayout>
 
-        <Button
+        <!-- Botón Registrar -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnRegistrar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="REGISTRAR SIGNOS VITALES"
-            android:backgroundTint="@color/azul_serenidad"
+            android:layout_height="58dp"
+            android:text="Registrar Signos Vitales"
+            android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/white"
-            android:layout_marginTop="8dp"/>
-
+            app:cornerRadius="12dp"
+            app:icon="@drawable/ic_heart_pulse"
+            app:iconGravity="start"
+            app:iconSize="20dp"
+            app:iconPadding="8dp"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/azul_serenidad"
+            app:elevation="0dp"
+            android:letterSpacing="0.02"/>
     </LinearLayout>
+
 </androidx.cardview.widget.CardView>

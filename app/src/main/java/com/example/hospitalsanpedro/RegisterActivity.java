@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         etPassword2 = findViewById(R.id.etPassword2);
         btnRegister = findViewById(R.id.btnRegister);
 
-        api = ApiClient.getApiService();
+        api = ApiClient.getApiService(this);
 
         // Click en registrar
         btnRegister.setOnClickListener(v -> {

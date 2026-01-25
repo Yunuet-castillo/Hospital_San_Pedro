@@ -30,7 +30,7 @@ public class AddVitalsActivity extends AppCompatActivity {
         etSat = findViewById(R.id.etSat);
         btnAdd = findViewById(R.id.btnAddSignos);
 
-        api = ApiClient.getApiService();
+        api = ApiClient.getApiService(this);
         sp = new SharedPrefManager(this);
 
         citaId = getIntent().getIntExtra("cita_id", -1);

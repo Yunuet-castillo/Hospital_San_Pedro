@@ -4,138 +4,413 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/azul_super_claro"
-    android:padding="16dp">
+    android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="32dp">
 
-        <TextView
+        <!-- Header -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Registro de Signos Vitales"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            android:textColor="@color/azul_serenidad"
-            android:gravity="center_horizontal"
-            android:layout_marginBottom="16dp"/>
+            android:orientation="vertical"
+            android:gravity="center"
+            android:layout_marginBottom="32dp">
 
+            <LinearLayout
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@drawable/circle_background_blue"
+                android:gravity="center"
+                android:elevation="4dp"
+                android:layout_marginBottom="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="❤️"
+                    android:textSize="36sp"
+                    android:textAlignment="center" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Registro de Signos Vitales"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:textColor="@color/azul_oscuro"
+                android:gravity="center"
+                android:layout_marginBottom="8dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Ingresa los datos clínicos del paciente"
+                android:textSize="14sp"
+                android:textColor="@android:color/darker_gray"
+                android:gravity="center"
+                android:alpha="0.8" />
+        </LinearLayout>
+
+        <!-- Datos del paciente -->
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginBottom="24dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="20dp"
+                android:gravity="center_vertical">
+
+                <LinearLayout
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:background="@drawable/circle_background_light_blue"
+                    android:gravity="center"
+                    android:layout_marginEnd="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="👤"
+                        android:textSize="20sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvPaciente"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre del Paciente"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/azul_grisaceo"
+                        android:layout_marginBottom="4dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Paciente registrado"
+                        android:textSize="12sp"
+                        android:textColor="@android:color/darker_gray" />
+                </LinearLayout>
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_chevron_right"
+                    android:tint="@color/azul_serenidad"
+                    android:layout_marginStart="8dp" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <!-- Título -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Signos Vitales"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/azul_oscuro"
+            android:layout_marginBottom="16dp" />
+
+        <!-- Formulario -->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
             app:cardElevation="6dp"
-            android:layout_marginBottom="16dp">
+            app:cardBackgroundColor="@color/white"
+            android:layout_marginBottom="32dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="20dp">
+                android:padding="24dp">
 
-                <TextView
-                    android:id="@+id/tvPaciente"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Paciente: Nombre del Paciente"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/azul_grisaceo"
-                    android:layout_marginBottom="16dp"/>
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/azul_pastel_claro"
-                    android:layout_marginBottom="16dp"/>
-
-                <com.google.android.material.textfield.TextInputLayout
+                <!-- Peso y Presión -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Peso (kg)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPeso"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                    <!-- Peso -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Peso"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPeso"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:hint="kg"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Presión -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Presión Arterial"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etPresion"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:hint="120/80"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Temperatura y FC -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Presión arterial (ej: 120/80)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etPresion"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="16dp">
 
-                <com.google.android.material.textfield.TextInputLayout
+                    <!-- Temperatura -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Temperatura"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etTemp"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="numberDecimal"
+                                android:hint="°C"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- FC -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Frec. Cardiaca"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etFc"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:hint="lpm"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- FR y Saturación -->
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Temperatura (°C)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTemp"
-                        android:inputType="numberDecimal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:orientation="horizontal">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Frecuencia cardiaca (lpm)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFc"
-                        android:inputType="number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    <!-- FR -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingEnd="8dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Frecuencia respiratoria (rpm)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="8dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etFr"
-                        android:inputType="number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Frec. Respiratoria"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Saturación de oxígeno (%)"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_marginBottom="0dp">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etSat"
-                        android:inputType="number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etFr"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:hint="rpm"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+
+                    <!-- Saturación -->
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sat. Oxígeno"
+                            android:textSize="14sp"
+                            android:textColor="@color/azul_grisaceo"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="8dp" />
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundColor="@color/white"
+                            app:boxStrokeColor="@color/azul_pastel_claro"
+                            app:shapeAppearanceOverlay="@style/TextInputLayoutRounded">
+
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/etSat"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:hint="%"
+                                android:minHeight="52dp" />
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
-        <Button
+        <!-- Botón -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btnAddSignos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="AGREGAR SIGNOS VITALES"
-            android:backgroundTint="@color/azul_serenidad"
+            android:layout_height="56dp"
+            android:text="REGISTRAR SIGNOS VITALES"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:letterSpacing="0.02"
             android:textColor="@color/white"
-            android:layout_marginTop="8dp"/>
+            app:cornerRadius="14dp"
+            app:icon="@drawable/ic_check_circle"
+            app:iconGravity="start"
+            app:iconSize="24dp"
+            app:iconPadding="8dp"
+            app:iconTint="@color/white"
+            app:backgroundTint="@color/azul_serenidad"
+            app:elevation="4dp"
+            android:layout_marginTop="8dp" />
+
+        <!-- Nota -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ℹ️ Todos los campos son obligatorios. Verifica los datos antes de registrar."
+            android:textSize="12sp"
+            android:textColor="@android:color/darker_gray"
+            android:gravity="center"
+            android:padding="12dp"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/rounded_background_info"
+            android:drawablePadding="8dp" />
+
     </LinearLayout>
 </ScrollView>
