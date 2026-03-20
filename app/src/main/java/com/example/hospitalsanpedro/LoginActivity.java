@@ -10,15 +10,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.checkbox.MaterialCheckBox;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText etUsername, etPassword;
     private MaterialButton btnLogin;
     private TextView tvRegister, tvForgotPassword;
-    private FloatingActionButton btnMenuOpciones;
     private MaterialCheckBox cbRememberCredentials;
 
     private SharedPrefManager sp;
@@ -29,61 +34,42 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        // SharedPrefManager (token, IP, etc.)
         sp = new SharedPrefManager(this);
 
-
-        // 🔁 Autologin
-        if (sp.isLoggedIn()) {
+        // 🔁 AUTOLOGIN
+        if (sp.getToken() != null) {
             startActivity(new Intent(this, MainActivity.class));
             finish();
             return;
         }
 
-        // SharedPreferences para login
         loginPrefs = getSharedPreferences("login_prefs", MODE_PRIVATE);
 
-        // Referencias XML
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
         btnLogin = findViewById(R.id.btnLogin);
         tvRegister = findViewById(R.id.tvRegister);
         tvForgotPassword = findViewById(R.id.tvForgotPassword);
-        btnMenuOpciones = findViewById(R.id.btnMenuOpciones);
         cbRememberCredentials = findViewById(R.id.cbRememberCredentials);
 
-        // 🔁 Cargar credenciales guardadas
         cargarCredenciales();
 
-        // 🔧 Forzar engranaje arriba
-        btnMenuOpciones.bringToFront();
-        btnMenuOpciones.setClickable(true);
-
-        // Engranaje → configuración IP
-        btnMenuOpciones.setOnClickListener(v -> {
-            Toast.makeText(this, "Configuración del servidor", Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(this, ServerConfigActivity.class));
-        });
-
-        // Login
         btnLogin.setOnClickListener(v -> realizarLogin());
 
-        // Registro (opcional)
-        tvRegister.setOnClickListener(v -> {
-            startActivity(new Intent(this, RegisterActivity.class));
-            Toast.makeText(this, "Registro próximamente", Toast.LENGTH_SHORT).show();
-        });
+        tvRegister.setOnClickListener(v ->
+                startActivity(new Intent(this, RegisterActivity.class))
+        );
 
-        // Olvidé contraseña (opcional)
         tvForgotPassword.setOnClickListener(v ->
                 Toast.makeText(this, "Recuperación próximamente", Toast.LENGTH_SHORT).show()
         );
     }
 
     // ===============================
-    // LOGIN
+    // LOGIN REAL
     // ===============================
     private void realizarLogin() {
+
         String username = etUsername.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
 
@@ -92,25 +78,40 @@ public class LoginActivity extends AppCompatActivity {
             return;
         }
 
-        // ✅ Verificar IP del servidor
-        String baseUrl = sp.getBaseUrl();
-        if (baseUrl == null || baseUrl.isEmpty()) {
-            Toast.makeText(this,
-                    "Configura la IP del servidor antes de iniciar sesión",
-                    Toast.LENGTH_LONG).show();
-            return;
-        }
+        ApiService api = ApiClient.getApiService();
 
-        // 🔐 LOGIN SIMULADO CORRECTO
-        sp.saveToken("TOKEN_DE_PRUEBA_123");
+        Map<String, String> body = new HashMap<>();
+        body.put("username", username);
+        body.put("password", password);
 
-        // 💾 Guardar o borrar credenciales
-        guardarCredenciales(username, password);
+        api.login(body).enqueue(new Callback<LoginResponse>() {
 
-        Toast.makeText(this, "Inicio de sesión exitoso", Toast.LENGTH_SHORT).show();
+            @Override
+            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
 
-        startActivity(new Intent(this, MainActivity.class));
-        finish();
+                if (response.isSuccessful() && response.body() != null) {
+
+                    String token = response.body().getToken();
+
+                    sp.saveToken(token);
+
+                    guardarCredenciales(username, password);
+
+                    Toast.makeText(LoginActivity.this, "Login exitoso", Toast.LENGTH_SHORT).show();
+
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "Credenciales incorrectas", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, "Error de conexión: " + t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
     // ===============================

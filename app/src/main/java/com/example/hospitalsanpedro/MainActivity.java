@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,7 +44,9 @@ public class MainActivity extends AppCompatActivity implements PatientAdapter.On
         rv = findViewById(R.id.rvPacientes);
         rv.setLayoutManager(new LinearLayoutManager(this));
 
-        api = ApiClient.getApiService(this);
+        // 🔥 YA SIN CONTEXT
+        api = ApiClient.getApiService();
+
         sp = new SharedPrefManager(this);
 
         adapter = new PatientAdapter(this);
@@ -61,6 +62,7 @@ public class MainActivity extends AppCompatActivity implements PatientAdapter.On
 
     private void loadCitas() {
         String token = sp.getToken();
+
         if (token == null) {
             startActivity(new Intent(this, LoginActivity.class));
             finish();
@@ -69,8 +71,8 @@ public class MainActivity extends AppCompatActivity implements PatientAdapter.On
 
         String todayDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
 
-        // 🔑 Usa "Bearer " en lugar de "Token "
-        api.getCitas("Bearer " + token, todayDate).enqueue(new Callback<List<Cita>>() {
+        api.getCitas("Token " + token, null).enqueue(new Callback<List<Cita>>() {
+
             @Override
             public void onResponse(Call<List<Cita>> call, Response<List<Cita>> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -108,25 +110,25 @@ public class MainActivity extends AppCompatActivity implements PatientAdapter.On
 
     private void mostrarMenuOpciones(View view) {
         View popupView = LayoutInflater.from(this).inflate(R.layout.menu_opciones_flotante, null);
-        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+        PopupWindow popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT,
+                true
+        );
+
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         popupWindow.setElevation(16f);
         popupWindow.showAsDropDown(view, -200, 0);
 
-        // Cambiar IP -> Abrir ServerConfigActivity
-        popupView.findViewById(R.id.opcionCambiarIP).setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ServerConfigActivity.class);
-            startActivity(intent);
-            popupWindow.dismiss();
-        });
+        // ❌ ELIMINADO: cambiar IP
 
-        // Cerrar sesión
+        // ✅ SOLO CERRAR SESIÓN
         popupView.findViewById(R.id.opcionCerrarSesion).setOnClickListener(v -> {
             cerrarSesion();
             popupWindow.dismiss();
         });
     }
-
 
     private void cerrarSesion() {
         new MaterialAlertDialogBuilder(this)
@@ -140,5 +142,4 @@ public class MainActivity extends AppCompatActivity implements PatientAdapter.On
                 .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
                 .show();
     }
-
 }
